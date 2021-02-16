@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Skp_ProjektDB.Models;
+using SkpDbLib.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Skp_ProjektDB.Controllers
@@ -12,20 +14,34 @@ namespace Skp_ProjektDB.Controllers
     {
         public IActionResult UserLogin(string loginName, string password)
         {
+            Security security = new Security();
             if (loginName == null)
                 return View();
             else
             {
                 ClaimsPrincipal principal = HttpContext.User as ClaimsPrincipal;
 
-                if(principal != null)
+                if (principal != null)
                 {
                     foreach (Claim claim in principal.Claims)
                     {
                         var x = claim;
                     }
                 }
+
                 //Make login here !!
+                // sql to get salt from username
+                byte[] salt = new byte[32]; // sql command
+                if (salt != null)
+                {
+                    security.Encrypt(Encoding.UTF8.GetBytes(password), salt);
+
+                }
+                else
+                {
+
+                }
+
 
                 return Redirect("/Project/ProjectOverView");
             }
